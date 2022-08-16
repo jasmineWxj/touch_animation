@@ -19,7 +19,7 @@
         margin-bottom: 5px;
         border-radius: 5px;
         /* transform: translate(); */
-        transition: 2s;
+        transition: 1s;
     }
     div{
         padding: 10px 20px;
@@ -27,38 +27,46 @@
     ul{
         overflow: hidden;
     }
+    .libox{
+        display: flex;
+        position: relative;
+    }
+    .libox span{
+        transition: 1s;
+        opacity: 0;
+        position: absolute;
+    }
 </style>
 <body>
     <div>
         <ul>
-            <li class="aaa">每天睡大觉</li>
+           <div class="libox">
+                <span class="libox_span">123</span>
+                <li class="aaa">每天睡大觉</li>
+            </div>
             <li></li>
             <li></li>
         </ul>
     </div>
     <script>
         var aaa = document.querySelector('.aaa')
+        var bbb = document.querySelector('.libox_span')
        aaa.addEventListener('touchstart',function(even){
             aaa.addEventListener('touchmove', function (e) {
                if (aaa.scrollTop + aaa.clientHeight === aaa.scrollHeight) {
                    var a = Math.round(e.changedTouches[0].clientX)
                    var b = Math.round(even.changedTouches[0].clientX)
                    var c = a - b
-                    aaa.style.transform = `translate(${c*12}px)`
-                    aaa.style.background = 'red'
-
-                   // console.log(a-b,'距离');
-                   if (a - b >= 20) {
-                       console.log(360 / 20);
-                       aaa.style.position = 'fixed';
-                       aaa.style.opacity = '0'
-                   } else {
-                       aaa.style.background = 'red'
+                   if (c > 50) {
+                        console.log(1111);
+                        aaa.style.transform = `translateX(50px)`
+                        bbb.style.opacity = '1'
+                   }else{
+                       aaa.style.transform = `translateX(0px)`
+                        bbb.style.opacity = '0'
                    }
                    aaa.addEventListener('touchend', function () {
                        aaa.style.background = 'pink'
-                       aaa.style.transform = `translate(0px)`
-
                    })
                }
            })
