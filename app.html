@@ -40,37 +40,67 @@
 <body>
     <div>
         <ul>
-           <div class="libox">
+            <div class="libox">
                 <span class="libox_span">123</span>
                 <li class="aaa">每天睡大觉</li>
             </div>
-            <li></li>
-            <li></li>
+
+            <div class="libox">
+                <span class="libox_span">123</span>
+                <li class="aaa">每天睡大觉</li>
+            </div>
+
+            <div class="libox">
+                <span class="libox_span">123</span>
+                <li class="aaa">每天睡大觉</li>
+            </div>
+          
         </ul>
     </div>
     <script>
         var aaa = document.querySelector('.aaa')
         var bbb = document.querySelector('.libox_span')
-       aaa.addEventListener('touchstart',function(even){
-            aaa.addEventListener('touchmove', function (e) {
-               if (aaa.scrollTop + aaa.clientHeight === aaa.scrollHeight) {
-                   var a = Math.round(e.changedTouches[0].clientX)
-                   var b = Math.round(even.changedTouches[0].clientX)
-                   var c = a - b
-                   if (c > 50) {
-                        console.log(1111);
-                        aaa.style.transform = `translateX(50px)`
-                        bbb.style.opacity = '1'
-                   }else{
-                       aaa.style.transform = `translateX(0px)`
-                        bbb.style.opacity = '0'
-                   }
-                   aaa.addEventListener('touchend', function () {
-                       aaa.style.background = 'pink'
-                   })
-               }
-           })
-       })
+        var box = document.querySelectorAll('.libox')
+        for(let i = 0;i<box.length;i++){
+            console.log(box[i].children[1]);
+            box[i].addEventListener('touchstart',function(even){
+                 box[i].addEventListener('touchmove', function (e) {
+                    var a = Math.round(e.changedTouches[0].clientX)
+                    var b = Math.round(even.changedTouches[0].clientX)
+                    var c = a - b
+                    if(c>50){
+                        box[i].children[1].style.transform = `translateX(50px)`
+                        box[i].children[0].style.opacity = '1'
+                    }else{
+                        box[i].children[1].style.transform = `translateX(0px)`
+                        box[i].children[0].style.opacity = '0'
+                    }
+                })
+            })
+        }
+
+    //     var aaa = document.querySelector('.aaa')
+    //     var bbb = document.querySelector('.libox_span')
+    //    aaa.addEventListener('touchstart',function(even){
+    //         aaa.addEventListener('touchmove', function (e) {
+    //            if (aaa.scrollTop + aaa.clientHeight === aaa.scrollHeight) {
+    //                var a = Math.round(e.changedTouches[0].clientX)
+    //                var b = Math.round(even.changedTouches[0].clientX)
+    //                var c = a - b
+    //                if (c > 50) {
+    //                     console.log(1111);
+    //                     aaa.style.transform = `translateX(50px)`
+    //                     bbb.style.opacity = '1'
+    //                }else{
+    //                    aaa.style.transform = `translateX(0px)`
+    //                     bbb.style.opacity = '0'
+    //                }
+    //                aaa.addEventListener('touchend', function () {
+    //                    aaa.style.background = 'pink'
+    //                })
+    //            }
+    //        })
+    //    })
     </script>
     
 </body>
