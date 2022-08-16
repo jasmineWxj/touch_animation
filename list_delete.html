@@ -15,42 +15,52 @@
         width: 100%;
         height: 35px;
         line-height: 35px;
-        background: pink;
+        background: #008E9B;
         margin-bottom: 5px;
         border-radius: 5px;
         transition: 1s;
+        color: #FBEAFF;
     }
     div{
-        padding: 10px 20px;
     }
     ul{
         overflow: hidden;
     }
     .libox{
         display: flex;
+        align-items: center;
         position: relative;
+        padding: 10px 20px;
+        transition: 1s;
+
     }
     .libox span{
         transition: 1s;
         opacity: 0;
         position: absolute;
+        width: 40px;
+        height: 30px;
+        line-height: 30px;
+        background: #008F7A;
+        text-align: center;
+        border-radius: 5px;
     }
 </style>
 <body>
     <div>
         <ul>
             <div class="libox">
-                <span class="libox_span">123</span>
+                <span class="libox_span">删除</span>
                 <li class="aaa">每天睡大觉</li>
             </div>
 
             <div class="libox">
-                <span class="libox_span">123</span>
+                <span class="libox_span">删除</span>
                 <li class="aaa">每天睡大觉</li>
             </div>
 
             <div class="libox">
-                <span class="libox_span">123</span>
+                <span class="libox_span">删除</span>
                 <li class="aaa">每天睡大觉</li>
             </div>
           
@@ -61,8 +71,11 @@
         var bbb = document.querySelector('.libox_span')
         var box = document.querySelectorAll('.libox')
         for(let i = 0;i<box.length;i++){
-            console.log(box[i].children[1]);
             box[i].addEventListener('touchstart',function(even){
+                for(let k = 0;k<box.length;k++){
+                    box[k].children[1].style.transform = `translateX(0px)`
+                    box[k].children[0].style.opacity = '0'
+                }
                  box[i].addEventListener('touchmove', function (e) {
                     var a = Math.round(e.changedTouches[0].clientX)
                     var b = Math.round(even.changedTouches[0].clientX)
@@ -75,6 +88,12 @@
                         box[i].children[0].style.opacity = '0'
                     }
                 })
+            })
+            box[i].children[0].addEventListener('click',function(e){
+               box[i].style.opacity = '0';
+               setTimeout(() => {
+                 box[i].style.display = 'none';
+               }, 1000);
             })
         }
 
