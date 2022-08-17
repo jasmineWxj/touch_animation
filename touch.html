@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>Pulldown refresh</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <style>
+        body {
+            margin: 0;
+            background-color: #eee;
+        }
+
+        #tip-wrap {
+            height: 0;
+            overflow: hidden;
+            text-align: center;
+            background-color: #ccc;
+            font-size: 0.9rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            pointer-events: none;
+            transition: min-height 0.2s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="tip-wrap">
+        <div id="tip">松开刷新</div>
+    </div>
+
+    <div id="wrap">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique delectus dolores dolore commodi minus,
+        corrupti, veritatis totam repudiandae facilis dolorum beatae labore nesciunt vel fugit illum quo distinctio
+        praesentium accusamus.
+    </div>
+
+    <script>
+        let state = undefined // start | moving | end
+        let touchStartY = undefined;
+        let touchTrigger = 100;
+        let dist = 0
+        const tip = document.querySelector('#tip-wrap')
+        const tipmsg = document.querySelector('#tip')
+        const wrap = document.querySelector('#wrap')
+
+        window.addEventListener('touchstart', (e) => {
+            console.log('touchstart', e.touches)
+            if (!window.scrollY)
+                touchStartY = e.touches[0].screenY;
+            state = 'start'
+        }, false)
+
+        window.addEventListener('touchmove', (e) => {
+            // console.log('touchmove', e.touches)
+            const screenY = e.touches[0].screenY
+
+            if (state === 'start') {
+                touchStartY = screenY
+                state = 'moving'
+            }
+
+            dist = screenY - touchStartY
+
+            if (dist > 0) {
+                e.preventDefault();
+                tip.style.minHeight = Math.min(dist, 50) + 'px'
+            }
+        }, { passive: false })
+
+        window.addEventListener('touchend', (e) => {
+            console.log('touchend', e.touches)
+            if(dist >= 50 && !window.scrollY) {
+                // alert('refresh')
+            }
+            touchStartY = 0
+            tip.style.minHeight = 0
+        }, false)
+    </script>
+</body>
+
+</html>
