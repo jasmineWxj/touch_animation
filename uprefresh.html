@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+          *{
+            padding: 0;
+            margin: 0;
+        }
+        ul{
+            /* overflow-y: scroll; */
+            height: 600px;
+            position: relative;
+            transition: 1s;
+
+        }
+        li{
+            list-style: none;
+            width: 100%;
+            height: 100px;
+            border: 1px solid red;
+        }
+        .please{
+            background: red;
+            transform:rotate(0deg);
+            transition: 2s;
+        }
+        .cover{
+            position: absolute;
+            height: 20px;
+            top: -35px;
+            left: 50%;
+            opacity: 0;
+            transition: 1s;
+            height: 30px;
+            transform: rotate(180deg);
+        }
+        @keyframes animation {
+            0%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+        .hhh{
+            position: absolute;
+            height: 20px;
+            top: -35px;
+            left: 50%;
+            opacity: 0;
+            transition: 1s;
+            height: 30px;
+            animation: animation infinite 1s linear;
+        }
+        header{
+            height: 20px;
+            background-color: black;
+        }
+     
+</style>
+<body>
+    <header>头部</header>
+    
+    <div>
+        <ul>
+            <img src="https://cdn.sm.cn/static/22/08/17/802c80cd234a77f055b0ddcbfa327672.png" class="cover"></img>
+            <img class="hhh" src="https://cdn.sm.cn/static/22/08/17/7012bdd390a52cfccf4e8f69bed11a62.png" alt="">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+            <li>11</li>
+            <div class="please">请刷新我</div>
+        </ul>
+    </div>
+    <script>
+        var ul = document.querySelector('ul')
+        var ple = document.querySelector('.please')
+        var cover = document.querySelector('.cover')
+        var hhh = document.querySelector('.hhh')
+        ul.addEventListener('touchstart', function (even) {
+            if(ul.scrollTop === 0){
+                ul.addEventListener('touchmove',function(e){
+                    var a = Math.round(e.changedTouches[0].clientY)
+                    var b = Math.round(even.changedTouches[0].clientY)
+                    if(a-b >= 60){
+                        console.log(a-b);
+                        ul.style.transform= `translateY(40px)`
+                        cover.style.opacity = '1'
+                        cover.style.transform=`rotate(0deg)`
+                        setTimeout(() => {
+                            cover.style.display = 'none'
+                            hhh.style.opacity = '1'
+                            setTimeout(() => {
+                                hhh.style.opacity = '0'
+                                ul.style.transform = `translateY(0px)`
+                                cover.style.opacity = '1'
+                                cover.style.transform = `rotate(180deg)`
+
+                            }, 2000);
+                        }, 1000);
+                    }else{
+                        
+                    }
+                })
+            }
+        })
+    </script>
+</body>
+</html>
