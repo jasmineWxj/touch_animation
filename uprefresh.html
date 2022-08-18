@@ -29,7 +29,7 @@
             transform:rotate(0deg);
             transition: 2s;
         }
-        .cover{
+        /* .cover{
             position: absolute;
             height: 20px;
             top: -35px;
@@ -38,7 +38,7 @@
             transition: 1s;
             height: 30px;
             transform: rotate(180deg);
-        }
+        } */
         @keyframes animation {
             0%{
                 transform: rotate(0deg);
@@ -50,26 +50,44 @@
         .hhh{
             position: absolute;
             height: 20px;
-            top: -35px;
-            left: 50%;
             opacity: 0;
             transition: 1s;
-            height: 30px;
             animation: animation infinite 1s linear;
         }
         header{
             height: 20px;
             background-color: black;
         }
-     
+             #tip-wrap {
+            height: 0;
+            overflow: hidden;
+            text-align: center;
+            background-color: #ccc;
+            /* font-size: 0.9rem; */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            pointer-events: none;
+            transition: min-height 0.2s ease;
+        }
+        .ccc{
+            width: 20px;
+            height: 20px;
+            transform: rotate(180deg);
+            transition: 1s;
+        }
 </style>
 <body>
     <header>头部</header>
     
     <div>
         <ul>
-            <img src="https://cdn.sm.cn/static/22/08/17/802c80cd234a77f055b0ddcbfa327672.png" class="cover"></img>
-            <img class="hhh" src="https://cdn.sm.cn/static/22/08/17/7012bdd390a52cfccf4e8f69bed11a62.png" alt="">
+                <div class="cover" id="tip-wrap">
+                    <img src="https://cdn.sm.cn/static/22/08/17/802c80cd234a77f055b0ddcbfa327672.png" class="ccc"></img>
+                    <img class="hhh" src="https://cdn.sm.cn/static/22/08/17/7012bdd390a52cfccf4e8f69bed11a62.png" alt="">
+                </div>
             <li>1</li>
             <li>2</li>
             <li>3</li>
@@ -89,32 +107,28 @@
         var ple = document.querySelector('.please')
         var cover = document.querySelector('.cover')
         var hhh = document.querySelector('.hhh')
+            var ccc = document.querySelector('.ccc')
         ul.addEventListener('touchstart', function (even) {
-            if(ul.scrollTop === 0){
+
                 ul.addEventListener('touchmove',function(e){
+                    ccc.style.display = 'block'
                     var a = Math.round(e.changedTouches[0].clientY)
                     var b = Math.round(even.changedTouches[0].clientY)
-                    if(a-b >= 60){
-                        console.log(a-b);
-                        ul.style.transform= `translateY(40px)`
-                        cover.style.opacity = '1'
-                        cover.style.transform=`rotate(0deg)`
-                        setTimeout(() => {
-                            cover.style.display = 'none'
-                            hhh.style.opacity = '1'
-                            setTimeout(() => {
-                                hhh.style.opacity = '0'
-                                ul.style.transform = `translateY(0px)`
-                                cover.style.opacity = '1'
-                                cover.style.transform = `rotate(180deg)`
-
-                            }, 2000);
-                        }, 1000);
-                    }else{
-                        
+                    var c = a -b;
+                      if (c > 0) {
+                        cover.style.minHeight = Math.min(c, 50) + 'px'
+                        ccc.style.transform = 'rotate(0deg)'
+                        e.preventDefault();
                     }
+                    ul.addEventListener('touchend',function(){
+                        ccc.style.display = 'none'
+                        hhh.style.opacity = '1'
+                        setTimeout(() => {
+                             hhh.style.display = 'none'
+                             cover.style.minHeight ='0px'
+                        }, 1000);
+                    })
                 })
-            }
         })
     </script>
 </body>

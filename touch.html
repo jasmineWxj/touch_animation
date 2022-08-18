@@ -14,7 +14,7 @@
             overflow: hidden;
             text-align: center;
             background-color: #ccc;
-            font-size: 0.9rem;
+            /* font-size: 0.9rem; */
             color: white;
             display: flex;
             align-items: center;
@@ -22,6 +22,11 @@
             width: 100%;
             pointer-events: none;
             transition: min-height 0.2s ease;
+        }
+        #wrap div{
+            height: 30px;
+            background-color: aqua;
+            margin: 50px 0;
         }
     </style>
 </head>
@@ -32,9 +37,17 @@
     </div>
 
     <div id="wrap">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique delectus dolores dolore commodi minus,
-        corrupti, veritatis totam repudiandae facilis dolorum beatae labore nesciunt vel fugit illum quo distinctio
-        praesentium accusamus.
+       <div>1</div>
+       <div>2</div>
+       <div>3</div>
+       <div>3</div>
+       <div>3</div>
+       <div>3</div>
+       <div>3</div>
+       <div>3</div>
+       <div>3</div>
+       <div>3</div>
+       <div>3</div>
     </div>
 
     <script>
@@ -56,7 +69,6 @@
         window.addEventListener('touchmove', (e) => {
             // console.log('touchmove', e.touches)
             const screenY = e.touches[0].screenY
-
             if (state === 'start') {
                 touchStartY = screenY
                 state = 'moving'
@@ -70,14 +82,14 @@
             }
         }, { passive: false })
 
-        window.addEventListener('touchend', (e) => {
-            console.log('touchend', e.touches)
-            if(dist >= 50 && !window.scrollY) {
-                // alert('refresh')
-            }
-            touchStartY = 0
-            tip.style.minHeight = 0
-        }, false)
+        // window.addEventListener('touchend', (e) => {
+        //     console.log('touchend', e.touches)
+        //     if(dist >= 50 && !window.scrollY) {
+        //         // alert('refresh')
+        //     }
+        //     touchStartY = 0
+        //     tip.style.minHeight = 0
+        // }, false)
     </script>
 </body>
 
