@@ -50,9 +50,10 @@
         .hhh{
             position: absolute;
             height: 20px;
-            opacity: 0;
+            /* opacity: 0; */
             transition: 1s;
             animation: animation infinite 1s linear;
+            display: none;
         }
         header{
             height: 20px;
@@ -84,10 +85,10 @@
     
     <div>
         <ul>
-                <div class="cover" id="tip-wrap">
-                    <img src="https://cdn.sm.cn/static/22/08/17/802c80cd234a77f055b0ddcbfa327672.png" class="ccc"></img>
-                    <img class="hhh" src="https://cdn.sm.cn/static/22/08/17/7012bdd390a52cfccf4e8f69bed11a62.png" alt="">
-                </div>
+            <div class="cover" id="tip-wrap">
+                <img src="https://cdn.sm.cn/static/22/08/17/802c80cd234a77f055b0ddcbfa327672.png" class="ccc"></img>
+                <img class="hhh" src="https://cdn.sm.cn/static/22/08/17/7012bdd390a52cfccf4e8f69bed11a62.png" alt="">
+            </div>
             <li>1</li>
             <li>2</li>
             <li>3</li>
@@ -99,37 +100,79 @@
             <li>9</li>
             <li>10</li>
             <li>11</li>
-            <div class="please">请刷新我</div>
         </ul>
     </div>
     <script>
         var ul = document.querySelector('ul')
-        var ple = document.querySelector('.please')
-        var cover = document.querySelector('.cover')
-        var hhh = document.querySelector('.hhh')
-            var ccc = document.querySelector('.ccc')
-        ul.addEventListener('touchstart', function (even) {
+        var coverBox = document.querySelector('.cover')
+        var loading = document.querySelector('.hhh')
+        var up = document.querySelector('.ccc')
 
-                ul.addEventListener('touchmove',function(e){
-                    ccc.style.display = 'block'
-                    var a = Math.round(e.changedTouches[0].clientY)
-                    var b = Math.round(even.changedTouches[0].clientY)
-                    var c = a -b;
-                      if (c > 0) {
-                        cover.style.minHeight = Math.min(c, 50) + 'px'
-                        ccc.style.transform = 'rotate(0deg)'
-                        e.preventDefault();
-                    }
-                    ul.addEventListener('touchend',function(){
-                        ccc.style.display = 'none'
-                        hhh.style.opacity = '1'
-                        setTimeout(() => {
-                             hhh.style.display = 'none'
-                             cover.style.minHeight ='0px'
-                        }, 1000);
-                    })
-                })
+        let flag = undefined;
+        let startY;
+        let endY;
+        let lengths;
+        ul.addEventListener('touchstart',function(even){
+            flag = 'start';
+            startY = Math.round(even.changedTouches[0].clientY)
         })
+        
+        ul.addEventListener('touchmove',function(even){
+            endY =  Math.round(even.changedTouches[0].clientY)
+            if(flag === 'start'){
+            up.style.transform = 'rotate(180deg)';
+
+                up.style.display = 'block';
+                flag = 'end';
+            }
+            lengths = endY - startY;
+            if(lengths >0){
+                coverBox.style.minHeight = Math.min(lengths, 50) + 'px'
+            }
+            if(lengths > 40){
+                up.style.transform = 'rotate(0deg)';
+
+            }
+        })
+        ul.addEventListener('touchend',function(){
+            if(lengths >= 50){
+                 up.style.display = 'none';
+                 loading.style.display = 'block';
+
+                 setTimeout(() => {
+                    coverBox.style.minHeight ='0px';
+                    loading.style.display = 'none';
+                 }, 1000);
+            }else{
+                 coverBox.style.minHeight = '0px';
+            }
+        },false)
+
+
+        // ul.addEventListener('touchstart', function (even) {
+
+        //         ul.addEventListener('touchmove',function(e){
+        //             ccc.style.display = 'block'
+        //             var a = Math.round(e.changedTouches[0].clientY)
+        //             var b = Math.round(even.changedTouches[0].clientY)
+        //             var c = a -b;
+        //               if (c > 0) {
+        //                 cover.style.minHeight = Math.min(c, 50) + 'px'
+        //                 ccc.style.transform = 'rotate(0deg)'
+        //                 e.preventDefault();
+        //             }
+        //             ul.addEventListener('touchend',function(){
+        //                 ccc.style.display = 'none'
+        //                 hhh.style.opacity = '1'
+        //                 setTimeout(() => {
+        //                     hhh.style.display = 'none'
+        //                     cover.style.minHeight ='0px'
+        //                     ccc.style.transform = 'rotate(180deg)'
+
+        //                 }, 1000);
+        //             })
+        //         })
+        // })
     </script>
 </body>
 </html>
