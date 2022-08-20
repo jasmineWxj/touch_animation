@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下拉刷新</title>
+</head>
+<style>
+          *{
+            padding: 0;
+            margin: 0;
+        }
+        ul{
+            /* overflow-y: scroll; */
+            height: 600px;
+            position: relative;
+            transition: 1s;
+
+        }
+        li{
+            list-style: none;
+            width: 100%;
+            height: 100px;
+            border: 1px solid red;
+        }
+        .please{
+            background: red;
+            transform:rotate(0deg);
+            transition: 2s;
+        }
+        /* .cover{
+            position: absolute;
+            height: 20px;
+            top: -35px;
+            left: 50%;
+            opacity: 0;
+            transition: 1s;
+            height: 30px;
+            transform: rotate(180deg);
+        } */
+        @keyframes animation {
+            0%{
+                transform: rotate(0deg);
+            }
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+        .hhh{
+            position: absolute;
+            height: 20px;
+            /* opacity: 0; */
+            transition: 1s;
+            animation: animation infinite 1s linear;
+            display: none;
+        }
+        header{
+            height: 20px;
+            background-color: black;
+        }
+             #tip-wrap {
+            height: 0;
+            overflow: hidden;
+            text-align: center;
+            background-color: #ccc;
+            /* font-size: 0.9rem; */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            pointer-events: none;
+            transition: min-height 0.2s ease;
+        }
+        .ccc{
+            width: 20px;
+            height: 20px;
+            transform: rotate(180deg);
+            transition: 1s;
+        }
+</style>
+<body>
+    <header>头部</header>
+    
+    <div>
+        <ul>
+            <div class="cover" id="tip-wrap">
+                <img src="https://cdn.sm.cn/static/22/08/17/802c80cd234a77f055b0ddcbfa327672.png" class="ccc"></img>
+                <img class="hhh" src="https://cdn.sm.cn/static/22/08/17/7012bdd390a52cfccf4e8f69bed11a62.png" alt="">
+            </div>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+            <li>11</li>
+        </ul>
+    </div>
+    <script>
+        var ul = document.querySelector('ul')
+        var coverBox = document.querySelector('.cover')
+        var loading = document.querySelector('.hhh')
+        var up = document.querySelector('.ccc')
+
+        let flag = undefined;
+        let startY;
+        let endY;
+        let lengths;
+        ul.addEventListener('touchstart',function(even){
+            flag = 'start';
+            startY = Math.round(even.changedTouches[0].clientY)
+        })
+        
+        ul.addEventListener('touchmove',function(even){
+            endY =  Math.round(even.changedTouches[0].clientY)
+            if(flag === 'start'){
+                up.style.transform = 'rotate(180deg)';
+                up.style.display = 'block';
+                flag = 'end';
+            }
+            lengths = endY - startY;
+            if(lengths >0){
+                coverBox.style.minHeight = Math.min(lengths, 50) + 'px'
+            }
+            if(lengths > 40){
+                up.style.transform = 'rotate(0deg)';
+
+            }
+        })
+        ul.addEventListener('touchend',function(){
+            if(lengths >= 50){
+                 up.style.display = 'none';
+                 loading.style.display = 'block';
+
+                 setTimeout(() => {
+                    coverBox.style.minHeight ='0px';
+                    loading.style.display = 'none';
+                 }, 1000);
+            }else{
+                 coverBox.style.minHeight = '0px';
+            }
+        })
+
+    </script>
+</body>
+</html>

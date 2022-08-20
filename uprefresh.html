@@ -1,94 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>上拉刷新</title>
 </head>
 <style>
-          *{
-            padding: 0;
-            margin: 0;
-        }
-        ul{
-            /* overflow-y: scroll; */
-            height: 600px;
-            position: relative;
-            transition: 1s;
+    * {
+        padding: 0;
+        margin: 0;
+    }
 
+    ul {
+        flex: 1;
+        height: 100%;
+        position: relative;
+        transition: 1s;
+        width: 300px;
+        border: 1px solid red;
+        overflow-y: scroll;
+
+    }
+
+    li {
+        list-style: none;
+        width: 100%;
+        height: 50px;
+        background-color: palegreen;
+        margin: 5px 0;
+        border-radius: 5px;
+    }
+
+    .please {
+        background: red;
+        transform: rotate(0deg);
+        transition: 2s;
+    }
+
+    @keyframes animation {
+        0% {
+            transform: rotate(0deg);
         }
-        li{
-            list-style: none;
-            width: 100%;
-            height: 100px;
-            border: 1px solid red;
+
+        100% {
+            transform: rotate(360deg);
         }
-        .please{
-            background: red;
-            transform:rotate(0deg);
-            transition: 2s;
-        }
-        /* .cover{
-            position: absolute;
-            height: 20px;
-            top: -35px;
-            left: 50%;
-            opacity: 0;
-            transition: 1s;
-            height: 30px;
-            transform: rotate(180deg);
-        } */
-        @keyframes animation {
-            0%{
-                transform: rotate(0deg);
-            }
-            100%{
-                transform: rotate(360deg);
-            }
-        }
-        .hhh{
-            position: absolute;
-            height: 20px;
-            /* opacity: 0; */
-            transition: 1s;
-            animation: animation infinite 1s linear;
-            display: none;
-        }
-        header{
-            height: 20px;
-            background-color: black;
-        }
-             #tip-wrap {
-            height: 0;
-            overflow: hidden;
-            text-align: center;
-            background-color: #ccc;
-            /* font-size: 0.9rem; */
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            pointer-events: none;
-            transition: min-height 0.2s ease;
-        }
-        .ccc{
-            width: 20px;
-            height: 20px;
-            transform: rotate(180deg);
-            transition: 1s;
-        }
+    }
+
+    .hhh {
+        position: absolute;
+        height: 20px;
+        transition: 1s;
+        animation: animation infinite 1s linear;
+        display: none;
+    }
+
+    header {
+        height: 20px;
+        background-color: black;
+    }
+
+    #tip-wrap {
+        height: 0px;
+        overflow: hidden;
+        text-align: center;
+        background-color: #ccc;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        pointer-events: none;
+        transition: min-height 0.2s ease;
+    }
+
+    .ccc {
+        width: 20px;
+        height: 20px;
+        transform: rotate(0deg);
+        transition: 1s;
+    }
+    .kkk{
+        overflow-y: scroll;
+        width: 300px;
+        height: 300px;
+        border: 1px solid palegoldenrod;
+    }
+    .footer{
+        height: 90px;
+        background: pink;
+    }
+    aside{
+        display: flex;
+        flex-direction: column;
+        height: 700px;
+    }
 </style>
+
 <body>
-    <header>头部</header>
-    
-    <div>
+    <aside>
+        <header>头部</header>
         <ul>
-            <div class="cover" id="tip-wrap">
-                <img src="https://cdn.sm.cn/static/22/08/17/802c80cd234a77f055b0ddcbfa327672.png" class="ccc"></img>
-                <img class="hhh" src="https://cdn.sm.cn/static/22/08/17/7012bdd390a52cfccf4e8f69bed11a62.png" alt="">
-            </div>
             <li>1</li>
             <li>2</li>
             <li>3</li>
@@ -100,8 +114,15 @@
             <li>9</li>
             <li>10</li>
             <li>11</li>
+            <li>11</li>
+            <li>11</li>
+            <div class="cover" id="tip-wrap">
+                <img src="https://cdn.sm.cn/static/22/08/17/802c80cd234a77f055b0ddcbfa327672.png" class="ccc"></img>
+                <img class="hhh" src="https://cdn.sm.cn/static/22/08/17/7012bdd390a52cfccf4e8f69bed11a62.png" alt="">
+            </div>
         </ul>
-    </div>
+        <footer>尾部</footer>
+    </aside>
     <script>
         var ul = document.querySelector('ul')
         var coverBox = document.querySelector('.cover')
@@ -112,67 +133,43 @@
         let startY;
         let endY;
         let lengths;
-        ul.addEventListener('touchstart',function(even){
+        let heightFlag = false
+        ul.addEventListener('touchstart', function (even) {
             flag = 'start';
             startY = Math.round(even.changedTouches[0].clientY)
         })
-        
-        ul.addEventListener('touchmove',function(even){
-            endY =  Math.round(even.changedTouches[0].clientY)
-            if(flag === 'start'){
-            up.style.transform = 'rotate(180deg)';
 
-                up.style.display = 'block';
+        ul.addEventListener('touchmove', function (even) {
+            heightFlag = false
+            if(ul.scrollHeight - ul.scrollTop < ul.clientHeight){ // 说明 已经滑到底部
+                endY = Math.round(even.changedTouches[0].clientY);
                 flag = 'end';
+                heightFlag = true
             }
-            lengths = endY - startY;
-            if(lengths >0){
-                coverBox.style.minHeight = Math.min(lengths, 50) + 'px'
+            lengths =startY- endY;
+            if(heightFlag && lengths > 0){
+                up.style.display = 'block';
+                 up.style.transform = 'rotate(0deg)';
+                coverBox.style.height = Math.min(lengths, 50) + 'px'
             }
-            if(lengths > 40){
-                up.style.transform = 'rotate(0deg)';
-
+            if (lengths > 40) {
+                up.style.transform = 'rotate(180deg)';
             }
         })
-        ul.addEventListener('touchend',function(){
-            if(lengths >= 50){
-                 up.style.display = 'none';
-                 loading.style.display = 'block';
-
-                 setTimeout(() => {
-                    coverBox.style.minHeight ='0px';
+        ul.addEventListener('touchend', function (even) {
+          if (lengths > 50 && heightFlag) {
+                up.style.display = 'none';
+                loading.style.display = 'block';
+                setTimeout(() => {
+                    coverBox.style.height = '0';
                     loading.style.display = 'none';
-                 }, 1000);
-            }else{
-                 coverBox.style.minHeight = '0px';
+                }, 1000);
+            } else {
+                coverBox.style.minHeight = '0px';
             }
-        },false)
+        })
 
-
-        // ul.addEventListener('touchstart', function (even) {
-
-        //         ul.addEventListener('touchmove',function(e){
-        //             ccc.style.display = 'block'
-        //             var a = Math.round(e.changedTouches[0].clientY)
-        //             var b = Math.round(even.changedTouches[0].clientY)
-        //             var c = a -b;
-        //               if (c > 0) {
-        //                 cover.style.minHeight = Math.min(c, 50) + 'px'
-        //                 ccc.style.transform = 'rotate(0deg)'
-        //                 e.preventDefault();
-        //             }
-        //             ul.addEventListener('touchend',function(){
-        //                 ccc.style.display = 'none'
-        //                 hhh.style.opacity = '1'
-        //                 setTimeout(() => {
-        //                     hhh.style.display = 'none'
-        //                     cover.style.minHeight ='0px'
-        //                     ccc.style.transform = 'rotate(180deg)'
-
-        //                 }, 1000);
-        //             })
-        //         })
-        // })
     </script>
 </body>
+
 </html>
