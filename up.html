@@ -110,9 +110,10 @@
     container.addEventListener('touchend',function(even) {
         if(flag === 'end'){
             if (lengths > 50 && heightFlag) {
-     
+                alert('开始刷新')
+                 up.style.transform = 'rotate(180deg)';
             } else {
-                
+                up.style.transform = 'rotate(180deg)';
             }
         }
     })
