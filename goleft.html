@@ -18,6 +18,9 @@
             position: fixed;
             background: yellow;
             left: -100px;
+            transition: .1s;
+            top: 50%;
+            transform: translateY(-50%);
         }
     </style>
 </head>
@@ -41,13 +44,22 @@
         window.addEventListener('touchmove',function(even){
             endX = Math.round(even.changedTouches[0].clientX);
             lengths = endX - startX;
-            console.log(lengths);
-            
-            if(lengths>=50){
-                goLeft.style.left = `-50px`
+            if(lengths>50){
+                // goLeft.style.left = `-50px`
+                goLeft.style.transform = 'translateX(50px)'
+                goLeft.style.width = '130px'
+                goLeft.style.height = '130px'
+
+
             }else{
-                goLeft.style.left = `-${lengths}px`
+                goLeft.style.transform = `translateX(${lengths}px)`
             }
+        })
+        window.addEventListener('touchend',function(){
+            goLeft.style.transform = `translateX(0px)`
+            goLeft.style.width = '100px'
+            goLeft.style.height = '100px'
+
         })
     </script>
 </body>
